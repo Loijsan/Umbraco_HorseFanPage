@@ -1,0 +1,56 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@using Umbraco.Web.Models
+
+@{
+    // The chosen image for the jumbotrone is saved in this variable and the overlay color
+    var horseImage = Model.Value<IPublishedContent>("horseImage")?.Url ?? "";
+
+    var horseOverlayColor = Model.Value<string>("horseOverlayColour");
+}
+
+<!-- Here we check if there is an Overlay Color chosen or not -->
+
+@if(!string.IsNullOrEmpty(horseOverlayColor))
+{
+    <style>
+        .home-horse > .overlay {
+            background-color: #@horseOverlayColor;
+            opacity: 0.5;
+        }
+    </style>
+}
+
+<!-- This is the styling for the Jumbotron -->
+<style>
+    .home-horse {
+        background: no-repeat center center;
+        background-attachment: scroll;
+        position: relative;
+        background-size: cover;
+        color: white;
+        padding-top: 5%;
+        padding-bottom: 5%;
+    }
+    .home-horse > .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+    .home-horse > .inner {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<div class="jumbotron jumbotron-fluid home-horse" style="background-image:url('@horseImage')">
+    <div class="overlay"></div>
+        <div class="inner">
+            <div class="container">
+                <h1 class="display-4">@Model.Value("horseTitle")</h1>
+                <p class="lead">@Model.Value("horseSubtitle")</p>
+            </div>
+        </div>
+</div>
